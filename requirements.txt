@@ -1,0 +1,6 @@
+Django==6.1.1
+mysqlclient
+python-dotenv
+cryptography
+gunicorn
+python-dateutil

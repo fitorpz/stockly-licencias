@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+        <h2 class="mb-1">Licencias</h2>
+        <p class="text-muted mb-0">
+            Administración de licencias Stockly.
+        </p>
+    </div>
+
+    <a href="{% url 'licencia_crear' %}" class="btn btn-primary">
+        + Nueva licencia
+    </a>
+
+</div>
+
+
+<div class="card shadow-sm border-0">
+
+    <div class="card-body">
+
+        <form method="GET" class="row g-2 mb-4">
+
+            <div class="col-md-7">
+
+                <input type="text" name="buscar" value="{{ buscar }}" class="form-control"
+                    placeholder="Código, cliente, razón social o NIT">
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <select name="estado" class="form-select">
+
+                    <option value="">
+                        Todos los estados
+                    </option>
+
+                    {% for valor, etiqueta in estados %}
+
+                    <option value="{{ valor }}" {% if estado == valor %} selected{% endif %}>
+                        {{ etiqueta }}
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <div class="col-md-2 d-grid">
+
+                <button type="submit" class="btn btn-outline-primary">
+                    Buscar
+                </button>
+
+            </div>
+
+        </form>
+
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead>
+
+                    <tr>
+                        <th>Código</th>
+                        <th>Cliente</th>
+                        <th>Créditos</th>
+                        <th>Bonificación</th>
+                        <th>Estado</th>
+                        <th>Activación</th>
+                        <th>Vencimiento</th>
+                        <th></th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for licencia in licencias %}
+
+                    <tr>
+
+                        <td>
+                            <strong>
+                                {{ licencia.codigo }}
+                            </strong>
+                        </td>
+
+
+                        <td>
+                            {{ licencia.cliente }}
+                        </td>
+
+
+                        <td>
+                            {{ licencia.creditos }}
+                        </td>
+
+
+                        <td>
+                            {% if licencia.bonificacion %}
+                            {{ licencia.bonificacion }}
+                            {% else %}
+                            0
+                            {% endif %}
+                        </td>
+
+
+                        <td>
+
+                            {% if licencia.estado_efectivo == "ACTIVA" %}
+
+                            <span class="badge text-bg-success">
+                                Activa
+                            </span>
+
+                            {% elif licencia.estado_efectivo == "VENCIDA" %}
+
+                            <span class="badge text-bg-danger">
+                                Vencida
+                            </span>
+
+                            {% elif licencia.estado == "PENDIENTE" %}
+
+                            <span class="badge text-bg-warning">
+                                Pendiente
+                            </span>
+
+                            {% elif licencia.estado == "BLOQUEADA" %}
+
+                            <span class="badge text-bg-dark">
+                                Bloqueada
+                            </span>
+
+                            {% elif licencia.estado == "CANCELADA" %}
+
+                            <span class="badge text-bg-secondary">
+                                Cancelada
+                            </span>
+
+                            {% else %}
+
+                            <span class="badge text-bg-secondary">
+                                {{ licencia.get_estado_display }}
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+                            {% if licencia.fecha_activacion %}
+                            {{ licencia.fecha_activacion|date:"d/m/Y H:i" }}
+                            {% else %}
+                            -
+                            {% endif %}
+                        </td>
+
+
+                        <td>
+                            {% if licencia.fecha_vencimiento %}
+                            {{ licencia.fecha_vencimiento|date:"d/m/Y" }}
+                            {% else %}
+                            -
+                            {% endif %}
+                        </td>
+
+
+                        <td class="text-end">
+
+                            <a href="{% url 'licencia_detalle' licencia.pk %}" class="btn btn-sm btn-outline-primary">
+                                Ver
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="8" class="text-center text-muted py-4">
+                            No existen licencias registradas.
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

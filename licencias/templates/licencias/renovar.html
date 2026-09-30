@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2>Renovar licencia</h2>
+            <p class="text-muted mb-0">
+                {{ licencia.codigo }}
+            </p>
+        </div>
+
+        <a href="{% url 'licencia_detalle' licencia.pk %}" class="btn btn-outline-secondary">
+            Volver
+        </a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <div class="mb-4">
+                <strong>Cliente:</strong>
+                {{ licencia.cliente }}
+                <br>
+
+                <strong>Vencimiento actual:</strong>
+                {% if licencia.fecha_vencimiento %}
+                {{ licencia.fecha_vencimiento|date:"d/m/Y H:i" }}
+                {% else %}
+                Sin activar
+                {% endif %}
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label class="form-label">
+                        Créditos
+                    </label>
+
+                    {{ form.creditos }}
+
+                    {{ form.creditos.errors }}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">
+                        Bonificación
+                    </label>
+
+                    {{ form.bonificacion }}
+
+                    {{ form.bonificacion.errors }}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">
+                        Monto
+                    </label>
+
+                    {{ form.monto }}
+
+                    {{ form.monto.errors }}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">
+                        Observaciones
+                    </label>
+
+                    {{ form.observaciones }}
+
+                    {{ form.observaciones.errors }}
+                </div>
+
+                <div class="d-flex justify-content-end gap-2">
+                    <a href="{% url 'licencia_detalle' licencia.pk %}" class="btn btn-outline-secondary">
+                        Cancelar
+                    </a>
+
+                    <button type="submit" class="btn btn-primary">
+                        Renovar licencia
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

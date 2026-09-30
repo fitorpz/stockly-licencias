@@ -1,0 +1,479 @@
+{% extends "base.html" %}
+
+{% block title %}
+Dashboard | Stockly Licencias
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid px-0">
+
+    <!-- ENCABEZADO -->
+
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+
+        <div>
+            <h2 class="fw-bold mb-1">
+                Dashboard
+            </h2>
+
+            <p class="text-muted mb-0">
+                Resumen general de la administración de licencias Stockly.
+            </p>
+        </div>
+
+        <div>
+            <a href="{% url 'licencia_crear' %}" class="btn btn-primary px-4">
+                <i class="bi bi-plus-lg me-1"></i>
+                Nueva licencia
+            </a>
+        </div>
+
+    </div>
+
+
+    <!-- TARJETAS RESUMEN -->
+
+    <div class="row g-4">
+
+        <!-- CLIENTES -->
+
+        <div class="col-12 col-md-6 col-xl-3">
+
+            <a href="{% url 'cliente_lista' %}" class="text-decoration-none">
+
+                <div class="card dashboard-stat-card border-0 shadow-sm h-100">
+
+                    <div class="card-body p-4">
+
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+
+                            <div>
+                                <div class="text-muted small mb-1">
+                                    Clientes
+                                </div>
+
+                                <div class="display-6 fw-bold text-dark">
+                                    {{ clientes_total }}
+                                </div>
+                            </div>
+
+                            <div class="stat-icon stat-icon-primary">
+                                <i class="bi bi-building"></i>
+                            </div>
+
+                        </div>
+
+                        <div class="dashboard-card-link">
+                            Ver clientes
+                            <i class="bi bi-arrow-right ms-1"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+        <!-- LICENCIAS ACTIVAS -->
+
+        <div class="col-12 col-md-6 col-xl-3">
+
+            <a href="{% url 'licencia_lista' %}?estado=ACTIVA" class="text-decoration-none">
+
+                <div class="card dashboard-stat-card border-0 shadow-sm h-100">
+
+                    <div class="card-body p-4">
+
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+
+                            <div>
+                                <div class="text-muted small mb-1">
+                                    Licencias activas
+                                </div>
+
+                                <div class="display-6 fw-bold text-dark">
+                                    {{ licencias_activas }}
+                                </div>
+                            </div>
+
+                            <div class="stat-icon stat-icon-success">
+                                <i class="bi bi-check-circle"></i>
+                            </div>
+
+                        </div>
+
+                        <div class="dashboard-card-link text-success">
+                            Ver licencias
+                            <i class="bi bi-arrow-right ms-1"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+        <!-- POR VENCER -->
+
+        <div class="col-12 col-md-6 col-xl-3">
+
+            <a href="{% url 'licencia_lista' %}?vencimiento=proximo" class="text-decoration-none">
+
+                <div class="card dashboard-stat-card border-0 shadow-sm h-100">
+
+                    <div class="card-body p-4">
+
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+
+                            <div>
+                                <div class="text-muted small mb-1">
+                                    Por vencer
+                                </div>
+
+                                <div class="display-6 fw-bold text-dark">
+                                    {{ licencias_por_vencer }}
+                                </div>
+
+                                <div class="small text-muted mt-1">
+                                    Próximos 30 días
+                                </div>
+                            </div>
+
+                            <div class="stat-icon stat-icon-warning">
+                                <i class="bi bi-clock-history"></i>
+                            </div>
+
+                        </div>
+
+                        <div class="dashboard-card-link text-warning">
+                            Ver licencias
+                            <i class="bi bi-arrow-right ms-1"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+        <!-- VENCIDAS -->
+
+        <div class="col-12 col-md-6 col-xl-3">
+
+            <a href="{% url 'licencia_lista' %}?vencimiento=vencida" class="text-decoration-none">
+
+                <div class="card dashboard-stat-card border-0 shadow-sm h-100">
+
+                    <div class="card-body p-4">
+
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+
+                            <div>
+                                <div class="text-muted small mb-1">
+                                    Licencias vencidas
+                                </div>
+
+                                <div class="display-6 fw-bold text-dark">
+                                    {{ licencias_vencidas }}
+                                </div>
+                            </div>
+
+                            <div class="stat-icon stat-icon-danger">
+                                <i class="bi bi-x-circle"></i>
+                            </div>
+
+                        </div>
+
+                        <div class="dashboard-card-link text-danger">
+                            Ver licencias
+                            <i class="bi bi-arrow-right ms-1"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- SEGUNDA FILA -->
+
+    <div class="row g-4 mt-1">
+
+        <!-- ACCESOS RÁPIDOS -->
+
+        <div class="col-12 col-xl-8">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="mb-4">
+                        <h5 class="fw-bold mb-1">
+                            Accesos rápidos
+                        </h5>
+
+                        <p class="text-muted small mb-0">
+                            Accede directamente a las principales funciones del sistema.
+                        </p>
+                    </div>
+
+
+                    <div class="row g-3">
+
+                        <div class="col-12 col-md-6">
+
+                            <a href="{% url 'cliente_crear' %}" class="quick-action-card">
+
+                                <div class="quick-action-icon">
+                                    <i class="bi bi-person-plus"></i>
+                                </div>
+
+                                <div>
+                                    <div class="fw-semibold text-dark">
+                                        Nuevo cliente
+                                    </div>
+
+                                    <div class="small text-muted">
+                                        Registrar un nuevo cliente.
+                                    </div>
+                                </div>
+
+                            </a>
+
+                        </div>
+
+
+                        <div class="col-12 col-md-6">
+
+                            <a href="{% url 'licencia_crear' %}" class="quick-action-card">
+
+                                <div class="quick-action-icon">
+                                    <i class="bi bi-key"></i>
+                                </div>
+
+                                <div>
+                                    <div class="fw-semibold text-dark">
+                                        Nueva licencia
+                                    </div>
+
+                                    <div class="small text-muted">
+                                        Generar una licencia para un cliente.
+                                    </div>
+                                </div>
+
+                            </a>
+
+                        </div>
+
+
+                        <div class="col-12 col-md-6">
+
+                            <a href="{% url 'cliente_lista' %}" class="quick-action-card">
+
+                                <div class="quick-action-icon">
+                                    <i class="bi bi-people"></i>
+                                </div>
+
+                                <div>
+                                    <div class="fw-semibold text-dark">
+                                        Administrar clientes
+                                    </div>
+
+                                    <div class="small text-muted">
+                                        Consultar y editar clientes.
+                                    </div>
+                                </div>
+
+                            </a>
+
+                        </div>
+
+
+                        <div class="col-12 col-md-6">
+
+                            <a href="{% url 'licencia_lista' %}" class="quick-action-card">
+
+                                <div class="quick-action-icon">
+                                    <i class="bi bi-card-checklist"></i>
+                                </div>
+
+                                <div>
+                                    <div class="fw-semibold text-dark">
+                                        Administrar licencias
+                                    </div>
+
+                                    <div class="small text-muted">
+                                        Consultar estados y vencimientos.
+                                    </div>
+                                </div>
+
+                            </a>
+
+                        </div>
+
+
+                        <div class="col-12 col-md-6">
+
+                            <a href="{% url 'usuario_lista' %}" class="quick-action-card">
+
+                                <div class="quick-action-icon">
+                                    <i class="bi bi-person-gear"></i>
+                                </div>
+
+                                <div>
+                                    <div class="fw-semibold text-dark">
+                                        Administrar usuarios
+                                    </div>
+
+                                    <div class="small text-muted">
+                                        Gestionar accesos al sistema.
+                                    </div>
+                                </div>
+
+                            </a>
+
+                        </div>
+
+
+                        <div class="col-12 col-md-6">
+
+                            <a href="{% url 'usuario_crear' %}" class="quick-action-card">
+
+                                <div class="quick-action-icon">
+                                    <i class="bi bi-person-add"></i>
+                                </div>
+
+                                <div>
+                                    <div class="fw-semibold text-dark">
+                                        Nuevo usuario
+                                    </div>
+
+                                    <div class="small text-muted">
+                                        Crear un nuevo acceso administrativo.
+                                    </div>
+                                </div>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ESTADO DEL SISTEMA -->
+
+        <div class="col-12 col-xl-4">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <h5 class="fw-bold mb-1">
+                        Estado del sistema
+                    </h5>
+
+                    <p class="text-muted small mb-4">
+                        Resumen operativo de Stockly Licencias.
+                    </p>
+
+
+                    <div class="system-status-item">
+
+                        <div class="system-status-icon bg-success-subtle text-success">
+                            <i class="bi bi-database-check"></i>
+                        </div>
+
+                        <div class="flex-grow-1">
+                            <div class="fw-semibold">
+                                Base de datos
+                            </div>
+
+                            <div class="small text-muted">
+                                Servicio disponible
+                            </div>
+                        </div>
+
+                        <span class="badge text-bg-success">
+                            Activa
+                        </span>
+
+                    </div>
+
+
+                    <div class="system-status-item">
+
+                        <div class="system-status-icon bg-primary-subtle text-primary">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+
+                        <div class="flex-grow-1">
+                            <div class="fw-semibold">
+                                Licenciamiento
+                            </div>
+
+                            <div class="small text-muted">
+                                Servicio operativo
+                            </div>
+                        </div>
+
+                        <span class="badge text-bg-success">
+                            Activo
+                        </span>
+
+                    </div>
+
+
+                    <div class="system-status-item mb-0">
+
+                        <div class="system-status-icon bg-secondary-subtle text-secondary">
+                            <i class="bi bi-person-check"></i>
+                        </div>
+
+                        <div class="flex-grow-1">
+                            <div class="fw-semibold">
+                                Sesión
+                            </div>
+
+                            <div class="small text-muted">
+                                Usuario autenticado
+                            </div>
+                        </div>
+
+                        <span class="badge text-bg-primary">
+                            Online
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

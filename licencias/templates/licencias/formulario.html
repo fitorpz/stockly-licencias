@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-lg-8">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <div>
+                <h2 class="mb-1">
+                    Nueva licencia
+                </h2>
+
+                <p class="text-muted mb-0">
+                    Generar una nueva licencia para Stockly.
+                </p>
+            </div>
+
+            <a href="{% url 'licencia_lista' %}" class="btn btn-outline-secondary">
+                Volver
+            </a>
+
+        </div>
+
+
+        <div class="card shadow-sm border-0">
+
+            <div class="card-body p-4">
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+
+                    <div class="alert alert-danger">
+                        {{ form.non_field_errors }}
+                    </div>
+
+                    {% endif %}
+
+
+                    <div class="mb-3">
+                        <label for="{{ form.cliente.id_for_label }}" class="form-label">
+                            Cliente
+                        </label>
+                        {{ form.cliente }}
+                        {{ form.cliente.errors }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.creditos.id_for_label }}" class="form-label">
+                            Créditos
+                        </label>
+                        {{ form.creditos }}
+                        {{ form.creditos.errors }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.bonificacion.id_for_label }}" class="form-label">
+                            Bonificación
+                        </label>
+                        {{ form.bonificacion }}
+
+                        <div class="form-text">
+                            Meses adicionales otorgados sin costo.
+                        </div>
+
+                        {{ form.bonificacion.errors }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.observaciones.id_for_label }}" class="form-label">
+                            Observaciones
+                        </label>
+                        {{ form.observaciones }}
+                        {{ form.observaciones.errors }}
+                    </div>
+
+
+                    <div class="alert alert-info">
+
+                        El código de licencia será generado
+                        automáticamente al guardar.
+
+                    </div>
+
+
+                    <div class="d-flex justify-content-end gap-2">
+
+                        <a href="{% url 'licencia_lista' %}" class="btn btn-outline-secondary">
+                            Cancelar
+                        </a>
+
+                        <button type="submit" class="btn btn-primary">
+                            Generar licencia
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

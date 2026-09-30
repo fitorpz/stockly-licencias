@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+
+        <h2 class="mb-1">
+            {{ licencia.codigo }}
+        </h2>
+
+        <p class="text-muted mb-0">
+            Detalle de licencia Stockly
+        </p>
+
+    </div>
+    <a href="{% url 'licencia_renovar' licencia.pk %}" class="btn btn-primary">
+        Renovar licencia
+    </a>
+
+    <a href="{% url 'licencia_lista' %}" class="btn btn-outline-secondary">
+        Volver
+    </a>
+
+</div>
+
+
+<div class="row g-4">
+
+    <div class="col-lg-7">
+
+        <div class="card shadow-sm border-0">
+
+            <div class="card-body p-4">
+
+                <h5 class="mb-4">
+                    Información de licencia
+                </h5>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        <strong>Cliente</strong>
+                        <div>
+                            {{ licencia.cliente }}
+                        </div>
+                    </div>
+
+                    <p>
+                        <strong>Créditos:</strong>
+                        {{ licencia.creditos }}
+                    </p>
+
+                    <p>
+                        <strong>Bonificación:</strong>
+                        {{ licencia.bonificacion }}
+                    </p>
+
+                    <p>
+                        <strong>Meses otorgados:</strong>
+                        {{ licencia.meses_vigencia }}
+                    </p>
+
+                    <div class="col-md-6 mb-3">
+                        <strong>Estado</strong>
+                        <div>
+                            {{ licencia.estado_efectivo }}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <strong>Creada</strong>
+                        <div>
+                            {{ licencia.fecha_creacion|date:"d/m/Y H:i" }}
+                        </div>
+                    </div>
+
+                    <p>
+                        <strong>Créditos / meses:</strong>
+                        {{ licencia.creditos }}
+                    </p>
+
+                    <div class="col-md-6 mb-3">
+                        <strong>Activación</strong>
+                        <div>
+                            {{ licencia.fecha_activacion|date:"d/m/Y H:i"|default:"-" }}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <strong>Vencimiento</strong>
+                        <div>
+                            {{ licencia.fecha_vencimiento|date:"d/m/Y H:i"|default:"-" }}
+                        </div>
+                    </div>
+
+                </div>
+
+
+                {% if licencia.observaciones %}
+
+                <hr>
+
+                <strong>Observaciones</strong>
+
+                <p class="mb-0 mt-2">
+                    {{ licencia.observaciones }}
+                </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-lg-5">
+
+        <div class="card shadow-sm border-0 mb-4">
+
+            <div class="card-body">
+
+                <h5>
+                    Dispositivos
+                </h5>
+
+                {% for dispositivo in dispositivos %}
+
+                <div class="border-bottom py-2">
+
+                    <strong>
+                        {{ dispositivo.nombre_dispositivo|default:"Dispositivo Android" }}
+                    </strong>
+
+                    <br>
+
+                    <small class="text-muted">
+                        {{ dispositivo.installation_id }}
+                    </small>
+
+                </div>
+
+                {% empty %}
+
+                <p class="text-muted mb-0">
+                    Esta licencia todavía no fue activada
+                    en ningún dispositivo.
+                </p>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <div class="card shadow-sm border-0">
+
+            <div class="card-body">
+
+                <h5>
+                    Renovaciones
+                </h5>
+
+                {% for renovacion in renovaciones %}
+
+                <div class="border-bottom py-2">
+
+                    {{ renovacion.creditos }} crédito{{ renovacion.creditos|pluralize }}
+                    {% if renovacion.bonificacion %}
+                    + {{ renovacion.bonificacion }} bonificación
+                    {% endif %}
+
+                    <br>
+
+                    <small class="text-muted">
+                        Nuevo vencimiento:
+                        {{ renovacion.nuevo_vencimiento|date:"d/m/Y" }}
+                    </small>
+
+                </div>
+
+                {% empty %}
+
+                <p class="text-muted mb-0">
+                    No existen renovaciones.
+                </p>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
